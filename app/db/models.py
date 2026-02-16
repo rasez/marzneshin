@@ -196,6 +196,7 @@ class User(Base):
         default=UserDataUsageResetStrategy.no_reset,
     )
     ip_limit = Column(Integer, nullable=False, default=-1)
+    device_limit = Column(Integer, nullable=False, default=-1)
     settings = Column(String(1024))
     expire_strategy = Column(
         Enum(UserExpireStrategy),

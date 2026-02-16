@@ -9,6 +9,7 @@ from app.db import GetDB
 from app.db.models import NodeUsage, NodeUserUsage, User
 from app.marznode import MarzNodeBase
 from app.tasks.data_usage_percent_reached import data_usage_percent_reached
+from app.connection_tracker import connection_tracker
 
 
 def record_user_usage_logs(

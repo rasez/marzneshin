@@ -631,6 +631,7 @@ def create_user(
         .filter(Service.id.in_(service_ids))
         .all(),  # user.services,
         data_limit=(user.data_limit or None),
+        device_limit=getattr(user, 'device_limit', -1),  # Default to -1 (unlimited)
         admin=admin,
         data_limit_reset_strategy=user.data_limit_reset_strategy,
         note=user.note,
@@ -657,6 +658,9 @@ def update_user(
 ):
     if modify.data_limit is not None:
         dbuser.data_limit = modify.data_limit or None
+
+    if hasattr(modify, 'device_limit') and modify.device_limit is not None:
+        dbuser.device_limit = modify.device_limit
 
     if modify.expire_strategy is not None:
         dbuser.expire_strategy = modify.expire_strategy or None
