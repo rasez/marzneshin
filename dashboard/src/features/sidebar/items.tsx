@@ -1,5 +1,5 @@
 import { SidebarObject } from '@marzneshin/common/components';
-import { Box, Home, ShieldCheck, Server, ServerCog, Settings, UsersIcon } from 'lucide-react';
+import { Box, Home, ShieldCheck, Server, ServerCog, Settings, UsersIcon, Activity } from 'lucide-react';
 
 export const sidebarItems: SidebarObject = {
     Dashboard: [
@@ -36,6 +36,20 @@ export const sidebarItems: SidebarObject = {
             isParent: false,
         },
     ],
+    Monitoring: [
+        {
+            title: 'Overview',
+            to: '/monitoring',
+            icon: <Activity />,
+            isParent: false,
+        },
+        {
+            title: 'Nodes',
+            to: '/monitoring/nodes',
+            icon: <Server />,
+            isParent: false,
+        },
+    ],
     System: [
         {
             title: 'Admins',
@@ -66,6 +80,14 @@ export const sidebarItemsNonSudoAdmin: SidebarObject = {
             title: 'Users',
             to: '/users',
             icon: <UsersIcon />,
+            isParent: false,
+        },
+    ],
+    Monitoring: [
+        {
+            title: 'Overview',
+            to: '/monitoring',
+            icon: <Activity />,
             isParent: false,
         },
     ],
