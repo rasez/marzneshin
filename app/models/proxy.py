@@ -17,6 +17,8 @@ class ProxyTypes(StrEnum):
     TUIC = "tuic"
     ShadowTLS = "shadowtls"
     OpenVPN = "openvpn"
+    IKEv2 = "ikev2"
+    L2TP = "l2tp"
 
 
 class InboundHostSecurity(StrEnum):

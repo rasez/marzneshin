@@ -169,6 +169,20 @@ install_openvpn() {
     fi
 }
 
+install_ipsec() {
+    colorized_echo blue "Installing IPsec/IKEv2/L2TP for Marznode"
+    
+    # Download and execute IPsec installation script
+    IPSEC_SCRIPT_URL="https://raw.githubusercontent.com/marzneshin/marzneshin/master/install-ipsec.sh"
+    
+    if command -v curl >/dev/null 2>&1; then
+        curl -sSL "$IPSEC_SCRIPT_URL" | bash
+        colorized_echo green "IPsec/IKEv2/L2TP installed successfully"
+    else
+        colorized_echo yellow "curl not found, skipping IPsec installation"
+    fi
+}
+
 uninstall_marzneshin_script() {
     if [ -f "/usr/local/bin/marzneshin" ]; then
         colorized_echo yellow "Removing marzneshin script"
@@ -283,6 +297,7 @@ install_command() {
     database="sqlite"
 	nightly=false
     install_openvpn_flag=false
+    install_ipsec_flag=false
 
 	while [[ "$#" -gt 0 ]]; do
 	    case $1 in
@@ -300,6 +315,9 @@ install_command() {
             -o|--openvpn)
                 install_openvpn_flag=true
                 ;;
+            -i|--ipsec)
+                install_ipsec_flag=true
+                ;;
 	        *)
 	            echo "Unknown option: $1"
 	            exit 1
@@ -315,6 +333,10 @@ install_command() {
     
     if [ "$install_openvpn_flag" = true ]; then
         install_openvpn
+    fi
+    
+    if [ "$install_ipsec_flag" = true ]; then
+        install_ipsec
     fi
     
     up_marzneshin
@@ -603,6 +625,7 @@ usage() {
     echo "  -d, --database   Database type (sqlite, mysql, mariadb)"
     echo "  -n, --nightly    Install nightly build"
     echo "  -o, --openvpn    Install OpenVPN server"
+    echo "  -i, --ipsec      Install IPsec/IKEv2/L2TP servers"
     echo
 }
 
