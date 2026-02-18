@@ -155,6 +155,20 @@ install_marznode_xray_config() {
     colorized_echo green "Sample xray config downloaded for marznode"
 }
 
+install_openvpn() {
+    colorized_echo blue "Installing OpenVPN for Marznode"
+    
+    # Download and execute OpenVPN installation script
+    OPENVPN_SCRIPT_URL="https://raw.githubusercontent.com/marzneshin/marzneshin/master/install-openvpn.sh"
+    
+    if command -v curl >/dev/null 2>&1; then
+        curl -sSL "$OPENVPN_SCRIPT_URL" | bash
+        colorized_echo green "OpenVPN installed successfully"
+    else
+        colorized_echo yellow "curl not found, skipping OpenVPN installation"
+    fi
+}
+
 uninstall_marzneshin_script() {
     if [ -f "/usr/local/bin/marzneshin" ]; then
         colorized_echo yellow "Removing marzneshin script"
@@ -268,7 +282,8 @@ install_command() {
 	
     database="sqlite"
 	nightly=false
- 
+    install_openvpn_flag=false
+
 	while [[ "$#" -gt 0 ]]; do
 	    case $1 in
 	        -d|--database)
@@ -282,6 +297,9 @@ install_command() {
 			-n|--nightly)
 	            nightly=true
 	            ;;
+            -o|--openvpn)
+                install_openvpn_flag=true
+                ;;
 	        *)
 	            echo "Unknown option: $1"
 	            exit 1
@@ -294,6 +312,11 @@ install_command() {
     install_marzneshin_script
     install_marzneshin $database $nightly
     install_marznode_xray_config
+    
+    if [ "$install_openvpn_flag" = true ]; then
+        install_openvpn
+    fi
+    
     up_marzneshin
     follow_marzneshin_logs
 }
@@ -575,6 +598,11 @@ usage() {
     echo "  update          Update latest version"
     echo "  uninstall       Uninstall Marzneshin"
     echo "  install-script  Install Marzneshin script"
+    echo
+    echo "Install Options:"
+    echo "  -d, --database   Database type (sqlite, mysql, mariadb)"
+    echo "  -n, --nightly    Install nightly build"
+    echo "  -o, --openvpn    Install OpenVPN server"
     echo
 }
 

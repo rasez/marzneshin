@@ -16,6 +16,7 @@ class ProxyTypes(StrEnum):
     WireGuard = "wireguard"
     TUIC = "tuic"
     ShadowTLS = "shadowtls"
+    OpenVPN = "openvpn"
 
 
 class InboundHostSecurity(StrEnum):

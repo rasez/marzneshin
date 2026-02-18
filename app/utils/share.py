@@ -18,7 +18,7 @@ from v2share import (
     XrayConfig,
     WireGuardConfig,
 )
-from v2share.base import BaseConfig
+from v2share.base import BaseConfig, ProxyConfig
 from v2share.data import MuxCoolSettings as V2MuxCoolSettings
 from v2share.data import MuxSettings as V2MuxSettings
 from v2share.data import SingBoxMuxSettings as V2SingBoxMuxSettings
@@ -60,11 +60,13 @@ subscription_handlers: dict[str, Type[BaseConfig]] = {
     "clash": ClashConfig,
     "sing-box": SingBoxConfig,
     "wireguard": WireGuardConfig,
+    "openvpn": ProxyConfig,  # OpenVPN uses base ProxyConfig for link generation
 }
 
 handlers_templates = {
     LinksConfig: None,
     WireGuardConfig: None,
+    ProxyConfig: None,  # OpenVPN
     XrayConfig: XRAY_SUBSCRIPTION_TEMPLATE
     or resources.files("app.templates") / "xray.json",
     ClashConfig: CLASH_SUBSCRIPTION_TEMPLATE,
@@ -93,7 +95,7 @@ def generate_subscription_template(
 
 def generate_subscription(
     user: "UserResponse",
-    config_format: Literal["links", "xray", "clash-meta", "clash", "sing-box"],
+    config_format: Literal["links", "xray", "clash-meta", "clash", "sing-box", "wireguard", "openvpn"],
     as_base64: bool = False,
     use_placeholder: bool = False,
     placeholder_remark: str = "disabled",

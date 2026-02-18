@@ -141,6 +141,7 @@ def user_get_usage(
 client_type_mime_type = {
     "sing-box": "application/json",
     "wireguard": "application/json",
+    "openvpn": "application/x-openvpn-profile",
     "clash-meta": "text/yaml",
     "clash": "text/yaml",
     "xray": "application/json",
@@ -155,11 +156,11 @@ def user_subscription_with_client_type(
     db_user: SubUserDep,
     request: Request,
     client_type: str = Path(
-        regex="^(sing-box|clash-meta|clash|xray|v2ray|links|wireguard)$"
+        regex="^(sing-box|clash-meta|clash|xray|v2ray|links|wireguard|openvpn)$"
     ),
 ):
     """
-    Subscription by client type; v2ray, xray, sing-box, clash and clash-meta formats supported
+    Subscription by client type; v2ray, xray, sing-box, clash, clash-meta, wireguard, and openvpn formats supported
     """
 
     user: UserResponse = UserResponse.model_validate(db_user)
