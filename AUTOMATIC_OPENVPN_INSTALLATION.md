@@ -52,7 +52,7 @@ Updated the main installation script to include:
 Install Marzneshin with OpenVPN support:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/marzneshin/marzneshin/master/script.sh | bash -s -- --openvpn
+curl -sSL https://raw.githubusercontent.com/rasez/marzneshin/main/script.sh | bash -s -- --openvpn
 ```
 
 ### **Separate Installation**
@@ -60,14 +60,14 @@ curl -sSL https://raw.githubusercontent.com/marzneshin/marzneshin/master/script.
 If Marzneshin is already installed:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/marzneshin/marzneshin/master/install-openvpn.sh | bash
+curl -sSL https://raw.githubusercontent.com/rasez/marzneshin/main/install-openvpn.sh | bash
 ```
 
 ### **Manual Installation**
 
 ```bash
 # Download script
-wget https://raw.githubusercontent.com/marzneshin/marzneshin/master/install-openvpn.sh
+wget https://raw.githubusercontent.com/rasez/marzneshin/main/install-openvpn.sh
 
 # Make executable
 chmod +x install-openvpn.sh
@@ -307,17 +307,17 @@ You now have **fully automatic OpenVPN installation** for Marzneshin!
 
 1. **One Command** (Recommended):
    ```bash
-   curl -sSL https://raw.githubusercontent.com/marzneshin/marzneshin/master/script.sh | bash -s -- --openvpn
+   curl -sSL https://raw.githubusercontent.com/rasez/marzneshin/main/script.sh | bash -s -- --openvpn
    ```
 
 2. **Separate Script**:
    ```bash
-   curl -sSL https://raw.githubusercontent.com/marzneshin/marzneshin/master/install-openvpn.sh | bash
+   curl -sSL https://raw.githubusercontent.com/rasez/marzneshin/main/install-openvpn.sh | bash
    ```
 
 3. **Manual**:
    ```bash
-   wget https://raw.githubusercontent.com/marzneshin/marzneshin/master/install-openvpn.sh
+   wget https://raw.githubusercontent.com/rasez/marzneshin/main/install-openvpn.sh
    chmod +x install-openvpn.sh
    sudo ./install-openvpn.sh
    ```

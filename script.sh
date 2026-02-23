@@ -8,8 +8,8 @@ DATA_DIR="/var/lib/$APP_NAME"
 NODE_DATA_DIR="/var/lib/$NODE_NAME"
 COMPOSE_FILE="$CONFIG_DIR/docker-compose.yml"
 
-FETCH_REPO="marzneshin/marzneshin"
-SCRIPT_URL="https://github.com/$FETCH_REPO/raw/master/script.sh"
+FETCH_REPO="rasez/marzneshin"
+SCRIPT_URL="https://github.com/$FETCH_REPO/raw/main/script.sh"
 
 colorized_echo() {
     local color=$1
@@ -126,8 +126,8 @@ install_marzneshin_script() {
 
 install_marzneshin() {
     # Fetch releases
-    FILES_URL_PREFIX="https://raw.githubusercontent.com/marzneshin/marzneshin/master"
-	COMPOSE_FILES_URL="https://raw.githubusercontent.com/marzneshin/marzneshin-deploy/master"
+    FILES_URL_PREFIX="https://raw.githubusercontent.com/rasez/marzneshin/main"
+	COMPOSE_FILES_URL="https://raw.githubusercontent.com/rasez/marzneshin-deploy/main"
  	database=$1
   	nightly=$2
   
@@ -151,7 +151,7 @@ install_marzneshin() {
 
 install_marznode_xray_config() {
     mkdir -p "$NODE_DATA_DIR"
-    curl -sL "https://raw.githubusercontent.com/marzneshin/marznode/master/xray_config.json" -o "$NODE_DATA_DIR/xray_config.json"
+    curl -sL "https://raw.githubusercontent.com/rasez/marznode/main/xray_config.json" -o "$NODE_DATA_DIR/xray_config.json"
     colorized_echo green "Sample xray config downloaded for marznode"
 }
 
@@ -159,7 +159,7 @@ install_openvpn() {
     colorized_echo blue "Installing OpenVPN for Marznode"
     
     # Download and execute OpenVPN installation script
-    OPENVPN_SCRIPT_URL="https://raw.githubusercontent.com/marzneshin/marzneshin/master/install-openvpn.sh"
+    OPENVPN_SCRIPT_URL="https://raw.githubusercontent.com/rasez/marzneshin/main/install-openvpn.sh"
     
     if command -v curl >/dev/null 2>&1; then
         curl -sSL "$OPENVPN_SCRIPT_URL" | bash
@@ -173,7 +173,7 @@ install_ipsec() {
     colorized_echo blue "Installing IPsec/IKEv2/L2TP for Marznode"
     
     # Download and execute IPsec installation script
-    IPSEC_SCRIPT_URL="https://raw.githubusercontent.com/marzneshin/marzneshin/master/install-ipsec.sh"
+    IPSEC_SCRIPT_URL="https://raw.githubusercontent.com/rasez/marzneshin/main/install-ipsec.sh"
     
     if command -v curl >/dev/null 2>&1; then
         curl -sSL "$IPSEC_SCRIPT_URL" | bash
