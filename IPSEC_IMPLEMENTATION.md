@@ -38,21 +38,21 @@ IPsec/IKEv2 and L2TP/IPsec support has been successfully implemented for both Ma
 
 ```bash
 # Install Marzneshin with IPsec/IKEv2/L2TP
-curl -sSL https://raw.githubusercontent.com/marzneshin/marzneshin/master/script.sh | bash -s -- --ipsec
+curl -sSL https://raw.githubusercontent.com/rasez/marzneshin/main/script.sh | bash -s -- --ipsec
 ```
 
 ### **Option 2: Install Separately**
 
 ```bash
 # Install IPsec/IKEv2/L2TP only
-curl -sSL https://raw.githubusercontent.com/marzneshin/marzneshin/master/install-ipsec.sh | bash
+curl -sSL https://raw.githubusercontent.com/rasez/marzneshin/main/install-ipsec.sh | bash
 ```
 
 ### **Option 3: Install All VPN Protocols**
 
 ```bash
 # Install with OpenVPN AND IPsec
-curl -sSL https://raw.githubusercontent.com/marzneshin/marzneshin/master/script.sh | bash -s -- --openvpn --ipsec
+curl -sSL https://raw.githubusercontent.com/rasez/marzneshin/main/script.sh | bash -s -- --openvpn --ipsec
 ```
 
 ---
@@ -461,17 +461,17 @@ You now have **fully automatic IPsec/IKEv2/L2TP installation**!
 
 1. **One Command**:
    ```bash
-   curl -sSL https://raw.githubusercontent.com/marzneshin/marzneshin/master/script.sh | bash -s -- --ipsec
+   curl -sSL https://raw.githubusercontent.com/rasez/marzneshin/main/script.sh | bash -s -- --ipsec
    ```
 
 2. **Separate Script**:
    ```bash
-   curl -sSL https://raw.githubusercontent.com/marzneshin/marzneshin/master/install-ipsec.sh | bash
+   curl -sSL https://raw.githubusercontent.com/rasez/marzneshin/main/install-ipsec.sh | bash
    ```
 
 3. **Manual**:
    ```bash
-   wget https://raw.githubusercontent.com/marzneshin/marzneshin/master/install-ipsec.sh
+   wget https://raw.githubusercontent.com/rasez/marzneshin/main/install-ipsec.sh
    chmod +x install-ipsec.sh
    sudo ./install-ipsec.sh
    ```

@@ -8,13 +8,13 @@ Install Marzneshin with OpenVPN support in one command:
 
 ```bash
 # Download and run installation script
-curl -sSL https://raw.githubusercontent.com/marzneshin/marzneshin/master/script.sh | bash -s -- --openvpn
+curl -sSL https://raw.githubusercontent.com/rasez/marzneshin/main/script.sh | bash -s -- --openvpn
 ```
 
 Or with all options:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/marzneshin/marzneshin/master/script.sh | bash -s -- --database sqlite --openvpn
+curl -sSL https://raw.githubusercontent.com/rasez/marzneshin/main/script.sh | bash -s -- --database sqlite --openvpn
 ```
 
 ### Option 2: Install OpenVPN Separately
@@ -23,7 +23,7 @@ If Marzneshin is already installed:
 
 ```bash
 # Download OpenVPN installation script
-curl -sSL https://raw.githubusercontent.com/marzneshin/marzneshin/master/install-openvpn.sh | bash
+curl -sSL https://raw.githubusercontent.com/rasez/marzneshin/main/install-openvpn.sh | bash
 ```
 
 Then restart Marznode:
