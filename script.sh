@@ -7,6 +7,7 @@ CONFIG_DIR="/etc/opt/$APP_NAME"
 DATA_DIR="/var/lib/$APP_NAME"
 NODE_DATA_DIR="/var/lib/$NODE_NAME"
 COMPOSE_FILE="$CONFIG_DIR/docker-compose.yml"
+FILES_URL_PREFIX="https://raw.githubusercontent.com/rasez/marzneshin/main"
 
 FETCH_REPO="rasez/marzneshin"
 SCRIPT_URL="https://github.com/$FETCH_REPO/raw/main/script.sh"
@@ -125,8 +126,6 @@ install_marzneshin_script() {
 }
 
 install_marzneshin() {
-    # Fetch releases
-    FILES_URL_PREFIX="https://raw.githubusercontent.com/rasez/marzneshin/main"
  	database=$1
   	nightly=$2
 
@@ -150,7 +149,7 @@ install_marzneshin() {
 
 install_marznode_xray_config() {
     mkdir -p "$NODE_DATA_DIR"
-    curl -sL "https://raw.githubusercontent.com/rasez/marznode/main/xray_config.json" -o "$NODE_DATA_DIR/xray_config.json"
+    curl -sL "$FILES_URL_PREFIX/xray_config.json" -o "$NODE_DATA_DIR/xray_config.json"
     colorized_echo green "Sample xray config downloaded for marznode"
 }
 
