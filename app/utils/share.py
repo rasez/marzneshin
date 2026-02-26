@@ -27,6 +27,24 @@ from v2share.data import XMuxSettings as V2XMuxSettings
 from v2share.data import XrayNoise
 from v2share.links import LinksConfig
 
+# Fix Shadowsocks link generation to use base64 without padding (SIP002 compliant)
+_original_to_link = V2Data.to_link
+
+def _fixed_to_link(self):
+    if self.protocol == "shadowsocks":
+        import urllib.parse as urlparse
+        # Use base64 without padding as per Shadowsocks specification
+        encoded = base64.b64encode(
+            (
+                f"{self.shadowsocks_method}:{self.password}"
+                + f"@{self.address}:{self.port}"
+            ).encode()
+        ).decode().rstrip('=')
+        return f"ss://{encoded}#{urlparse.quote(self.remark)}"
+    return _original_to_link(self)
+
+V2Data.to_link = _fixed_to_link
+
 from app.config.env import (
     XRAY_SUBSCRIPTION_TEMPLATE,
     SINGBOX_SUBSCRIPTION_TEMPLATE,
