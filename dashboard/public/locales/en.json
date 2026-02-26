@@ -193,6 +193,7 @@
       "lifetime_used_traffic": "Lifetime Used Traffic",
       "note-placeholder": "Additional information about user",
       "data_limit": "Data Limit",
+      "device_limit": "Device Limit",
       "traffic": "Traffic",
       "used_traffic": "Used Traffic",
       "data_limit_reset_strategy": "Data Reset Period",

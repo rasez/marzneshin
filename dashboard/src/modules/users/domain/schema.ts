@@ -25,6 +25,10 @@ export const UserSchema = z.object({
         .array(z.number().or(z.string()))
         .nonempty({ message: "At least one service is required" })
         .transform((v) => v.map(Number)),
+    device_limit: z
+        .union([z.string().transform((str) => Number(str)), z.number()])
+        .refine((val) => val >= -1, { message: "Device limit must be -1 or greater" })
+        .default(-1),
 });
 
 export type UserMutationType = z.infer<typeof UserSchema>;

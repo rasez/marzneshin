@@ -25,5 +25,6 @@ export interface UserType {
     service_ids: number[];
     note: string;
     online_at: string;
+    device_limit: number;
 }
 

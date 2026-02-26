@@ -20,7 +20,7 @@ import {
     type UserMutationType,
 } from "@marzneshin/modules/users";
 import { ServicesField } from "@marzneshin/modules/services";
-import { NoteField } from "./fields";
+import { NoteField, DeviceLimitField } from "./fields";
 import { type MutationDialogProps, useMutationDialog } from "@marzneshin/common/hooks";
 import { DataLimitFields, ExpirationMethodFields } from "./sections";
 
@@ -38,6 +38,7 @@ export const UsersMutationDialog: FC<MutationDialogProps<UserMutationType>> = ({
             note: "",
             expire_date: "",
             expire_strategy: "fixed_date",
+            device_limit: -1,
         }),
         [],
     );
@@ -52,6 +53,7 @@ export const UsersMutationDialog: FC<MutationDialogProps<UserMutationType>> = ({
         loadFormtter: (d) => ({
             ...d,
             data_limit: (d.data_limit ? d.data_limit : 0) / DATA_LIMIT_METRIC,
+            device_limit: d.device_limit ?? -1,
         }),
     });
 
@@ -73,6 +75,7 @@ export const UsersMutationDialog: FC<MutationDialogProps<UserMutationType>> = ({
                                     <UsernameField disabled={!!entity?.username} />
                                     <Separator />
                                     <DataLimitFields />
+                                    <DeviceLimitField />
                                     <Separator />
                                     <ExpirationMethodFields entity={entity} />
                                     <Separator />
