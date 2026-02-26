@@ -14,7 +14,6 @@ export interface LogEntry {
 
 export const useBackendLogsSocket = (
     nodeId: number,
-    backend: string | null,
     autoScroll: boolean = true
 ) => {
     const [logs, setLogs] = useState<LogEntry[]>([]);
@@ -46,7 +45,7 @@ export const useBackendLogsSocket = (
                 // Handle plain text logs
                 setLogs(prev => [...prev, {
                     timestamp: new Date().toISOString(),
-                    level: 'INFO',
+                    level: 'INFO' as const,
                     message: event.data,
                 }].slice(-1000));
             }

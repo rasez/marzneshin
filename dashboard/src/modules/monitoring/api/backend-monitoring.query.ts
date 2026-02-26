@@ -5,7 +5,8 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { fetch } from "@marzneshin/common/utils";
-import type { BackendInfo, BackendStatus, ProtocolMonitoringData, SystemResourceStats } from "../types/monitoring";
+import type { BackendInfo, BackendStatus, ProtocolMonitoringData } from "../types/monitoring";
+import type { NodeType } from "@marzneshin/modules/nodes";
 
 /**
  * Fetch backend running status
@@ -97,15 +98,15 @@ export const useProtocolMonitoringQuery = (nodeId: number, protocol: string) => 
  */
 export const getNodeProtocols = (node: NodeType): string[] => {
     const protocols: string[] = [];
-    
-    // Check inbounds to determine available protocols
-    node.inbounds?.forEach((inbound: any) => {
-        const protocol = inbound.protocol?.toLowerCase();
+
+    // Check backends to determine available protocols
+    node.backends?.forEach((backend: any) => {
+        const protocol = backend.name?.toLowerCase();
         if (protocol && !protocols.includes(protocol)) {
             protocols.push(protocol);
         }
     });
-    
+
     return protocols;
 };
 
@@ -134,5 +135,3 @@ export const protocolStatusColors: Record<string, string> = {
     stopped: 'bg-red-500',
     unknown: 'bg-gray-500',
 };
-
-import type { NodeType } from "@marzneshin/modules/nodes";

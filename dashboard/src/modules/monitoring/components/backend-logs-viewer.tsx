@@ -23,7 +23,6 @@ export const BackendLogsViewer = ({ nodeId, backends }: BackendLogsViewerProps) 
     
     const { logs, isConnected, connect, disconnect, clearLogs } = useBackendLogsSocket(
         nodeId,
-        selectedBackend,
         autoScroll
     );
 

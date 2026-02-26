@@ -4,12 +4,11 @@
  */
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@marzneshin/common/components/ui/card";
-import { useNodesWithMonitoringQuery } from "../api/node-monitoring.query";
+import { useNodesWithMonitoringQuery } from "../../api/node-monitoring.query";
 import { Badge } from "@marzneshin/common/components/ui/badge";
-import { 
-    protocolDisplayNames, 
-    protocolStatusColors 
-} from "../api/backend-monitoring.query";
+import {
+    protocolDisplayNames
+} from "../../api/backend-monitoring.query";
 import { Network, Wifi, WifiOff } from "lucide-react";
 
 export const ProtocolsMonitoringWidget = () => {
@@ -18,7 +17,7 @@ export const ProtocolsMonitoringWidget = () => {
     // Aggregate protocol status across all nodes
     const protocolStatus = new Map<string, { running: number; total: number }>();
 
-    nodes?.forEach(node => {
+    nodes?.forEach((node: any) => {
         node.backends?.forEach((backend: any) => {
             const current = protocolStatus.get(backend.name) || { running: 0, total: 0 };
             current.total++;

@@ -6,20 +6,18 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@marzneshin/common/components/ui/card";
 import { Badge } from "@marzneshin/common/components/ui/badge";
 import { Button } from "@marzneshin/common/components/ui/button";
-import { useNodeMonitoringQuery, useNodeTrafficQuery, useNodeBackendsQuery } from "../api/node-monitoring.query";
+import { useNodeMonitoringQuery, useNodeTrafficQuery } from "../api/node-monitoring.query";
 import { useParams, Link } from "@tanstack/react-router";
-import { 
-    Server, 
-    HardDrive, 
-    Wifi, 
-    Activity, 
-    ArrowUpCircle, 
+import {
+    Server,
+    HardDrive,
+    Activity,
+    ArrowUpCircle,
     ArrowDownCircle,
     CheckCircle2,
     XCircle,
     AlertCircle,
-    RefreshCw,
-    Clock
+    RefreshCw
 } from "lucide-react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { ProtocolDetailCard } from "./protocol-detail-card";
@@ -27,11 +25,10 @@ import { BackendLogsViewer } from "./backend-logs-viewer";
 
 export const NodeDetailMonitoring = () => {
     const { nodeId } = useParams({ strict: false });
-    const nodeIdNum = parseInt(nodeId);
+    const nodeIdNum = parseInt(nodeId || "0");
 
     const { data: nodeData, isLoading: nodeLoading, refetch } = useNodeMonitoringQuery(nodeIdNum);
     const { data: trafficData } = useNodeTrafficQuery(nodeIdNum, 7);
-    const { data: backends } = useNodeBackendsQuery(nodeIdNum);
 
     const formatBytes = (bytes: number) => {
         if (bytes === 0) return '0 B';
@@ -75,7 +72,7 @@ export const NodeDetailMonitoring = () => {
             {/* Header */}
             <div className="flex justify-between items-center">
                 <div className="flex items-center gap-4">
-                    <Link to="/monitoring">
+                    <Link to="/nodes">
                         <Button variant="outline" size="sm">← Back</Button>
                     </Link>
                     <div>

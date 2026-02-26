@@ -3,7 +3,7 @@
  * Main monitoring overview page
  */
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@marzneshin/common/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@marzneshin/common/components/ui/card";
 import { useSystemStatsQuery } from "../api/system-stats.query";
 import { useNodesWithMonitoringQuery } from "../api/node-monitoring.query";
 import { UsersMonitoringWidget } from "./widgets/users-monitoring-widget";
@@ -11,13 +11,11 @@ import { NodesMonitoringWidget } from "./widgets/nodes-monitoring-widget";
 import { TrafficMonitoringWidget } from "./widgets/traffic-monitoring-widget";
 import { ProtocolsMonitoringWidget } from "./widgets/protocols-monitoring-widget";
 import { ActivityMonitorWidget } from "./widgets/activity-monitor-widget";
-import { 
-    Activity, 
-    Server, 
-    Users, 
-    Network, 
-    TrendingUp,
-    HardDrive 
+import {
+    Server,
+    Users,
+    Network,
+    TrendingUp
 } from "lucide-react";
 
 export const MonitoringDashboard = () => {
@@ -43,7 +41,7 @@ export const MonitoringDashboard = () => {
         },
         {
             title: "Total Traffic",
-            value: formatBytes(calculateTotalTraffic(nodesWithMonitoring)),
+            value: formatBytes(calculateTotalTraffic(nodesWithMonitoring ?? [])),
             description: "Last 24 hours",
             icon: TrendingUp,
             color: "text-purple-500",
@@ -51,7 +49,7 @@ export const MonitoringDashboard = () => {
         },
         {
             title: "Active Protocols",
-            value: countActiveProtocols(nodesWithMonitoring),
+            value: countActiveProtocols(nodesWithMonitoring ?? []),
             description: "Across all nodes",
             icon: Network,
             color: "text-orange-500",

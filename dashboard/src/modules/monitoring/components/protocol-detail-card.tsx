@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@marzneshin/common/com
 import { Badge } from "@marzneshin/common/components/ui/badge";
 import { Button } from "@marzneshin/common/components/ui/button";
 import { useBackendStatusQuery } from "../api/backend-monitoring.query";
-import { Wifi, WifiOff, Activity, Server } from "lucide-react";
+import { Wifi, WifiOff, Activity } from "lucide-react";
 import { protocolDisplayNames } from "../api/backend-monitoring.query";
 import type { BackendInfo } from "../types/monitoring";
 

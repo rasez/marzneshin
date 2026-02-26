@@ -8,10 +8,10 @@ import { Badge } from "@marzneshin/common/components/ui/badge";
 import { Button } from "@marzneshin/common/components/ui/button";
 import { useNodesWithMonitoringQuery } from "../api/node-monitoring.query";
 import { Link } from "@tanstack/react-router";
-import { 
-    Server, 
-    CheckCircle2, 
-    XCircle, 
+import {
+    Server,
+    CheckCircle2,
+    XCircle,
     AlertCircle,
     RefreshCw,
     Wifi,
@@ -138,7 +138,7 @@ export const NodesMonitoringList = () => {
                 {filteredNodes?.map((node) => (
                     <Link
                         key={node.id}
-                        to="/monitoring/nodes/$nodeId"
+                        to="/nodes/$nodeId"
                         params={{ nodeId: node.id.toString() }}
                         className="block"
                     >
@@ -211,7 +211,7 @@ export const NodesMonitoringList = () => {
                                 <div className="pt-3 border-t text-xs text-muted-foreground">
                                     <div className="flex justify-between">
                                         <span>Version:</span>
-                                        <span className="font-medium">{node.xray_version || 'N/A'}</span>
+                                        <span className="font-medium">{(node as any).xray_version || 'N/A'}</span>
                                     </div>
                                     <div className="flex justify-between mt-1">
                                         <span>Coefficient:</span>

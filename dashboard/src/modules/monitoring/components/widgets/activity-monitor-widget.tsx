@@ -4,8 +4,8 @@
  */
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@marzneshin/common/components/ui/card";
-import { Activity, UserPlus, UserX, RefreshCw, AlertCircle, CheckCircle } from "lucide-react";
-import { useUserStatsQuery } from "../api/system-stats.query";
+import { Activity, RefreshCw, AlertCircle, CheckCircle } from "lucide-react";
+import { useUserStatsQuery } from "../../api/system-stats.query";
 
 export const ActivityMonitorWidget = () => {
     const { data: stats } = useUserStatsQuery();
@@ -86,8 +86,8 @@ export const ActivityMonitorWidget = () => {
                     <div className="mt-4 pt-4 border-t">
                         <div className="text-sm font-medium mb-2">Latest Updates</div>
                         <div className="flex flex-wrap gap-2">
-                            {stats.recent_subscription_updates.slice(0, 8).map((user, i) => (
-                                <span 
+                            {stats.recent_subscription_updates.slice(0, 8).map((user: string, i: number) => (
+                                <span
                                     key={i}
                                     className="px-2 py-1 bg-blue-50 text-blue-700 text-xs rounded-md border border-blue-200"
                                 >

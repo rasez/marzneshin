@@ -4,7 +4,7 @@
  */
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@marzneshin/common/components/ui/card";
-import { useUserStatsQuery } from "../api/system-stats.query";
+import { useUserStatsQuery } from "../../api/system-stats.query";
 import { Progress } from "@marzneshin/common/components/ui/progress";
 import { Users, UserCheck, UserX, Clock, Zap } from "lucide-react";
 
@@ -88,8 +88,8 @@ export const UsersMonitoringWidget = () => {
                             Recent Subscription Updates
                         </div>
                         <div className="flex flex-wrap gap-1">
-                            {stats.recent_subscription_updates.slice(0, 5).map((user, i) => (
-                                <span 
+                            {stats.recent_subscription_updates.slice(0, 5).map((user: string, i: number) => (
+                                <span
                                     key={i}
                                     className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full"
                                 >

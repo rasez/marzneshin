@@ -36,17 +36,17 @@ const FragmentErrorPopover: FC = () => {
                 <ul className="my-6 ml-3 list-disc [&>li]:mt-1 mt-0">
                     {errors.fragment?.length?.message && (
                         <li>
-                            <b>Length:</b> {t(errors.fragment.length.message as string)}
+                            <b>Length:</b> {t(String(errors.fragment.length.message))}
                         </li>
                     )}
                     {errors.fragment?.packets?.message && (
                         <li>
-                            <b>Packets:</b> {t(errors.fragment.packets.message as string)}
+                            <b>Packets:</b> {t(String(errors.fragment.packets.message))}
                         </li>
                     )}
                     {errors.fragment?.interval?.message && (
                         <li>
-                            <b>Interval:</b> {t(errors.fragment.interval.message as string)}
+                            <b>Interval:</b> {t(String(errors.fragment.interval.message))}
                         </li>
                     )}
                 </ul>

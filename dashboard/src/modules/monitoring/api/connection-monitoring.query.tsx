@@ -4,7 +4,6 @@
  */
 
 import { useQuery } from "@tanstack/react-query";
-import { fetch } from "@marzneshin/common/utils";
 import type { ActiveConnection, UserConnections } from "../types/monitoring";
 
 /**

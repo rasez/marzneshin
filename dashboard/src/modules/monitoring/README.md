@@ -143,7 +143,7 @@ dashboard/src/modules/monitoring/
 │   ├── system-stats.query.ts         # System stats API
 │   ├── node-monitoring.query.ts      # Node monitoring API
 │   ├── backend-monitoring.query.ts   # Backend monitoring API
-│   └── connection-monitoring.query.ts # Connection tracking API
+│   └── connection-monitoring.query.tsx # Connection tracking API
 ├── components/
 │   ├── monitoring-dashboard.tsx      # Main dashboard
 │   ├── nodes-monitoring-list.tsx     # Nodes list

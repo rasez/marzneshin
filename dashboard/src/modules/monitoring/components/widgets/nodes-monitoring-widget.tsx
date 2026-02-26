@@ -4,18 +4,17 @@
  */
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@marzneshin/common/components/ui/card";
-import { useNodesWithMonitoringQuery } from "../api/node-monitoring.query";
-import { Badge } from "@marzneshin/common/components/ui/badge";
-import { Server, CheckCircle2, XCircle, AlertCircle, Wifi, HardDrive } from "lucide-react";
+import { useNodesWithMonitoringQuery } from "../../api/node-monitoring.query";
+import { Server, CheckCircle2, XCircle, AlertCircle } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 
 export const NodesMonitoringWidget = () => {
     const { data: nodes } = useNodesWithMonitoringQuery();
 
     const statusCounts = {
-        healthy: nodes?.filter(n => n.status === 'healthy').length || 0,
-        unhealthy: nodes?.filter(n => n.status === 'unhealthy').length || 0,
-        disabled: nodes?.filter(n => n.status === 'disabled').length || 0,
+        healthy: nodes?.filter((n: any) => n.status === 'healthy').length || 0,
+        unhealthy: nodes?.filter((n: any) => n.status === 'unhealthy').length || 0,
+        disabled: nodes?.filter((n: any) => n.status === 'disabled').length || 0,
     };
 
     const getStatusColor = (status: string) => {
@@ -72,10 +71,10 @@ export const NodesMonitoringWidget = () => {
 
                 {/* Node List */}
                 <div className="space-y-2">
-                    {nodes?.slice(0, 5).map((node) => (
+                    {nodes?.slice(0, 5).map((node: any) => (
                         <Link
                             key={node.id}
-                            to="/monitoring/nodes/$nodeId"
+                            to="/nodes/$nodeId"
                             params={{ nodeId: node.id.toString() }}
                             className="block"
                         >
@@ -106,8 +105,8 @@ export const NodesMonitoringWidget = () => {
 
                 {/* View All Link */}
                 <div className="pt-2">
-                    <Link 
-                        to="/monitoring/nodes"
+                    <Link
+                        to="/nodes"
                         className="text-sm text-primary hover:underline"
                     >
                         View all nodes →
