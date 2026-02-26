@@ -127,15 +127,14 @@ install_marzneshin_script() {
 install_marzneshin() {
     # Fetch releases
     FILES_URL_PREFIX="https://raw.githubusercontent.com/rasez/marzneshin/main"
-	COMPOSE_FILES_URL="https://raw.githubusercontent.com/rasez/marzneshin-deploy/main"
  	database=$1
   	nightly=$2
-  
+
     mkdir -p "$DATA_DIR"
     mkdir -p "$CONFIG_DIR"
 
     colorized_echo blue "Fetching compose file"
-    curl -sL "$COMPOSE_FILES_URL/docker-compose-$database.yml" -o "$CONFIG_DIR/docker-compose.yml"
+    curl -sL "$FILES_URL_PREFIX/docker-compose-$database.yml" -o "$CONFIG_DIR/docker-compose.yml"
     colorized_echo green "File saved in $CONFIG_DIR/docker-compose.yml"
 	if [ "$nightly" = true ]; then
 	    colorized_echo red "setting compose tag to nightly."
