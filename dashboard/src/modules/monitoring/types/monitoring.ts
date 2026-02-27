@@ -17,6 +17,8 @@ export interface SystemStats {
     total_nodes: number;
     healthy_nodes: number;
     unhealthy_nodes: number;
+    disabled_nodes?: number;
+    active_protocols?: number;
 }
 
 // User Statistics

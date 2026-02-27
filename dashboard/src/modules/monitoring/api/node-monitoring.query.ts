@@ -5,7 +5,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { fetch } from "@marzneshin/common/utils";
-import type { NodeMonitoringData, TrafficStats, UsageSeries } from "../types/monitoring";
+import type { NodeMonitoringData, TrafficStats, UsageSeries, BackendInfo } from "../types/monitoring";
 import type { NodeType } from "@marzneshin/modules/nodes";
 
 /**
@@ -27,7 +27,7 @@ export interface NodeWithMonitoring extends NodeType {
 export async function fetchNodeMonitoringData(nodeId: number): Promise<NodeMonitoringData> {
     // Fetch node details
     const node = await fetch(`/nodes/${nodeId}`);
-    
+
     // Fetch node usage
     const usage = await fetch(`/nodes/${nodeId}/usage`, {
         query: {
@@ -35,25 +35,33 @@ export async function fetchNodeMonitoringData(nodeId: number): Promise<NodeMonit
             end: new Date().toISOString(),
         }
     });
-    
-    // Fetch backend stats for all backends
-    const backends = await Promise.all(
-        ['xray', 'sing-box', 'hysteria2', 'openvpn', 'ipsec'].map(async (backend) => {
-            try {
-                const stats = await fetch(`/nodes/${nodeId}/${backend}/stats`);
-                return {
-                    name: backend,
-                    type: backend,
-                    version: '',
-                    inbounds: [],
-                    running: stats.running,
-                };
-            } catch {
-                return null;
-            }
-        })
-    ).then(results => results.filter(Boolean));
-    
+
+    // Fetch backends from the dedicated endpoint
+    let backends: any[] = [];
+    try {
+        backends = await fetch(`/nodes/${nodeId}/backends`).catch(() => []);
+    } catch (e) {
+        // Fallback to manual backend status checks
+        const backendNames = ['xray', 'sing-box', 'hysteria2', 'openvpn', 'ipsec'];
+        const backendResults = await Promise.all(
+            backendNames.map(async (backend) => {
+                try {
+                    const stats = await fetch(`/nodes/${nodeId}/${backend}/stats`);
+                    return {
+                        name: backend,
+                        type: backend,
+                        version: stats.version || '',
+                        inbounds: stats.inbounds || [],
+                        running: stats.running || false,
+                    };
+                } catch {
+                    return null;
+                }
+            })
+        );
+        backends = backendResults.filter(Boolean);
+    }
+
     return {
         id: node.id,
         name: node.name,
@@ -64,7 +72,7 @@ export async function fetchNodeMonitoringData(nodeId: number): Promise<NodeMonit
         total_traffic: usage.total || 0,
         active_users: 0, // Would need additional API
         online_users: 0, // Would need additional API
-        backends: backends as any[],
+        backends: backends as BackendInfo[],
         last_status_change: node.last_status_change || '',
         usage_coefficient: node.usage_coefficient || 1.0,
     };
@@ -168,5 +176,39 @@ export const useNodesWithMonitoringQuery = () => {
         queryKey: ['nodes', 'monitoring'],
         queryFn: fetchNodesWithMonitoring,
         refetchInterval: 30000, // 30 seconds
+    });
+};
+
+/**
+ * Fetch active users for a specific node
+ */
+export interface NodeUser {
+    id: number;
+    username: string;
+    status: string;
+    online: boolean;
+    used_traffic: number;
+    data_limit: number | null;
+    expire_date: string | null;
+}
+
+export interface NodeUsersResponse {
+    items: NodeUser[];
+    total: number;
+}
+
+export async function fetchNodeUsers(nodeId: number): Promise<NodeUsersResponse> {
+    return fetch(`/nodes/${nodeId}/users`).catch(() => ({ items: [], total: 0 }));
+}
+
+/**
+ * Hook for node users
+ */
+export const useNodeUsersQuery = (nodeId: number) => {
+    return useQuery({
+        queryKey: ['nodes', nodeId, 'users'],
+        queryFn: () => fetchNodeUsers(nodeId),
+        refetchInterval: 10000, // 10 seconds
+        enabled: !!nodeId,
     });
 };

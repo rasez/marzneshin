@@ -25,16 +25,16 @@ export const MonitoringDashboard = () => {
     const statCards = [
         {
             title: "Total Users",
-            value: systemStats.total_users,
-            description: `${systemStats.online_users} online now`,
+            value: systemStats?.total_users ?? 0,
+            description: `${systemStats?.online_users ?? 0} online now`,
             icon: Users,
             color: "text-blue-500",
             bgColor: "bg-blue-50",
         },
         {
             title: "Active Nodes",
-            value: systemStats.healthy_nodes,
-            description: `${systemStats.unhealthy_nodes} unhealthy`,
+            value: systemStats?.healthy_nodes ?? 0,
+            description: `${systemStats?.unhealthy_nodes ?? 0} unhealthy`,
             icon: Server,
             color: "text-green-500",
             bgColor: "bg-green-50",
@@ -49,7 +49,7 @@ export const MonitoringDashboard = () => {
         },
         {
             title: "Active Protocols",
-            value: countActiveProtocols(nodesWithMonitoring ?? []),
+            value: systemStats?.active_protocols ?? countActiveProtocols(nodesWithMonitoring ?? []),
             description: "Across all nodes",
             icon: Network,
             color: "text-orange-500",
