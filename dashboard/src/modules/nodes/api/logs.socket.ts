@@ -18,10 +18,15 @@ export const getStatus = (status: string) => {
 
 export const getWebsocketUrl = (nodeId: number, backend: string) => {
     try {
+        // Derive a WebSocket base URL that always targets the `/api` prefix.
+        const rawBase = import.meta.env.VITE_BASE_API || "/api/";
+        const trimmed = rawBase.replace(/\/+$/, "");
+        const withApi = trimmed.endsWith("/api") ? trimmed : `${trimmed}/api`;
+
         const baseURL = new URL(
-            import.meta.env.VITE_BASE_API.startsWith("/")
-                ? window.location.origin + import.meta.env.VITE_BASE_API
-                : import.meta.env.VITE_BASE_API,
+            withApi.startsWith("/")
+                ? window.location.origin + withApi
+                : withApi,
         );
         const protocol = baseURL.protocol === "https:" ? "wss://" : "ws://";
         return `${protocol}${joinPaths([baseURL.host + baseURL.pathname, `/nodes/${nodeId}/${backend}/logs`])}?interval=1&token=${useAuth.getState().getAuthToken()}`;
