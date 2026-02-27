@@ -1,6 +1,8 @@
 services:
   marzneshin:
-    image: dawsh/marzneshin:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.custom
     restart: always
     env_file: .env
     environment:
