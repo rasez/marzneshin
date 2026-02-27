@@ -1,0 +1,35 @@
+# Multi-stage build: Build frontend and add to official marzneshin image
+# This is faster and smaller than building everything from scratch
+
+# Stage 1: Build the frontend
+FROM node:20-slim AS frontend-builder
+
+WORKDIR /app
+
+# Copy only dashboard files (faster build)
+COPY dashboard/package*.json ./dashboard/
+COPY dashboard/src ./dashboard/src
+COPY dashboard/public ./dashboard/public
+COPY dashboard/index.html ./dashboard/
+COPY dashboard/tsconfig.json ./dashboard/
+COPY dashboard/vite.config.ts ./dashboard/
+COPY dashboard/tailwind.config.js ./dashboard/
+COPY dashboard/postcss.config.js ./dashboard/
+
+WORKDIR /app/dashboard
+
+# Install dependencies
+RUN npm install
+
+# Build the frontend
+RUN npm run build
+
+# Stage 2: Use official marzneshin image as base
+FROM dawsh/marzneshin:latest
+
+# Copy built frontend files from builder stage
+COPY --from=frontend-builder /app/dashboard/dist /app/dashboard/dist
+
+# Optional: Add metadata
+LABEL maintainer="custom"
+LABEL description="Marzneshin with custom frontend build"
