@@ -28,6 +28,7 @@ from app.models.node import (
     NodeStatus,
     BackendConfig,
     BackendStats,
+    Backend,
 )
 from app.models.system import TrafficUsageSeries
 
@@ -84,6 +85,43 @@ def get_node(node_id: int, db: DBDep, admin: SudoAdminDep):
         raise HTTPException(status_code=404, detail="Node not found")
 
     return db_node
+
+
+@router.get("/{node_id}/backends", response_model=list[Backend])
+async def get_node_backends(
+    node_id: int, db: DBDep, admin: SudoAdminDep
+):
+    """Get all backends for a node with their inbounds"""
+    if not (node := marznode.nodes.get(node_id)):
+        raise HTTPException(status_code=404, detail="Node not found")
+
+    try:
+        # Fetch backends from the node via gRPC
+        backends_response = await node.fetch_backends()
+        return backends_response.backends
+    except Exception as e:
+        logger.error(f"Failed to fetch backends for node {node_id}: {e}")
+        # Return empty list if node is not responsive
+        return []
+
+
+@router.get("/{node_id}/users")
+def get_node_users(
+    node_id: int, db: DBDep, admin: SudoAdminDep
+):
+    """Get users associated with a specific node"""
+    db_node = crud.get_node_by_id(db, node_id)
+    if not db_node:
+        raise HTTPException(status_code=404, detail="Node not found")
+
+    # Get users for this node
+    users = crud.get_node_users(db, db_node.id)
+    
+    # Return as paginated response
+    return {
+        "items": users,
+        "total": len(users)
+    }
 
 
 @router.websocket("/{node_id}/{backend}/logs")

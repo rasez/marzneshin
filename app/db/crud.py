@@ -127,15 +127,36 @@ def get_node_users(
     db: Session,
     node_id: int,
 ):
+    """Get all users associated with a specific node"""
+    from datetime import datetime, timedelta
+    
     query = (
-        db.query(User.id, User.username, User.key, Inbound)
+        db.query(User)
         .distinct()
-        .join(Inbound.services)
-        .join(Service.users)
+        .join(User.services)
+        .join(Service.inbounds)
         .filter(Inbound.node_id == node_id)
-        .filter(User.activated == True)
     )
-    return query.all()
+    users = query.all()
+    
+    # Calculate online status (online if active within last 30 seconds)
+    result = []
+    for user in users:
+        is_online = (
+            user.online_at and 
+            user.online_at > (datetime.utcnow() - timedelta(seconds=30))
+        )
+        result.append({
+            "id": user.id,
+            "username": user.username,
+            "status": "active" if user.activated else "inactive",
+            "online": is_online,
+            "used_traffic": user.used_traffic,
+            "data_limit": user.data_limit,
+            "expire_date": user.expire_date,
+        })
+    
+    return result
 
 
 def get_user_hosts(db: Session, user_id: int):

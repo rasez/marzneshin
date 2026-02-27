@@ -17,6 +17,20 @@ export async function fetchSystemStats(): Promise<SystemStats> {
         fetch('/nodes', { query: { page: 1, size: 100 } })
     ]);
 
+    // Map backend field names to frontend field names
+    // Backend returns: total, active, on_hold, expired, limited, online
+    // Frontend expects: total_users, active_users, on_hold_users, expired_users, limited_users, online_users
+    const mappedUserStats = {
+        total_users: userStats.total || 0,
+        active_users: userStats.active || 0,
+        on_hold_users: userStats.on_hold || 0,
+        expired_users: userStats.expired || 0,
+        limited_users: userStats.limited || 0,
+        online_users: userStats.online || 0,
+        recent_subscription_updates: userStats.recent_subscription_updates || [],
+        total_admins: 0, // Will be fetched separately if needed
+    };
+
     // Calculate node stats from nodes list
     const nodes = nodesResponse.items || [];
     const healthyNodes = nodes.filter((n: any) => n.status === 'healthy').length;
@@ -38,7 +52,8 @@ export async function fetchSystemStats(): Promise<SystemStats> {
     activeProtocols = protocolSet.size;
 
     return {
-        ...userStats,
+        ...mappedUserStats,
+        version: '',
         total_nodes: nodes.length,
         healthy_nodes: healthyNodes,
         unhealthy_nodes: unhealthyNodes,

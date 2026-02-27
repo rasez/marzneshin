@@ -39,7 +39,11 @@ export async function fetchNodeMonitoringData(nodeId: number): Promise<NodeMonit
     // Fetch backends from the dedicated endpoint
     let backends: any[] = [];
     try {
-        backends = await fetch(`/nodes/${nodeId}/backends`).catch(() => []);
+        backends = await fetch(`/nodes/${nodeId}/backends`);
+        // Ensure backends is an array
+        if (!Array.isArray(backends)) {
+            backends = [];
+        }
     } catch (e) {
         // Fallback to manual backend status checks
         const backendNames = ['xray', 'sing-box', 'hysteria2', 'openvpn', 'ipsec'];
@@ -70,8 +74,8 @@ export async function fetchNodeMonitoringData(nodeId: number): Promise<NodeMonit
         uplink: node.uplink || 0,
         downlink: node.downlink || 0,
         total_traffic: usage.total || 0,
-        active_users: 0, // Would need additional API
-        online_users: 0, // Would need additional API
+        active_users: 0, // Will be calculated from users API
+        online_users: 0, // Will be calculated from users API
         backends: backends as BackendInfo[],
         last_status_change: node.last_status_change || '',
         usage_coefficient: node.usage_coefficient || 1.0,
@@ -198,7 +202,22 @@ export interface NodeUsersResponse {
 }
 
 export async function fetchNodeUsers(nodeId: number): Promise<NodeUsersResponse> {
-    return fetch(`/nodes/${nodeId}/users`).catch(() => ({ items: [], total: 0 }));
+    try {
+        const response = await fetch(`/nodes/${nodeId}/users`);
+        // Handle both array and object responses
+        if (Array.isArray(response)) {
+            return {
+                items: response,
+                total: response.length
+            };
+        }
+        return {
+            items: response.items || [],
+            total: response.total || 0
+        };
+    } catch (e) {
+        return { items: [], total: 0 };
+    }
 }
 
 /**
