@@ -74,7 +74,7 @@ export const NodesMonitoringWidget = () => {
                     {nodes?.slice(0, 5).map((node: any) => (
                         <Link
                             key={node.id}
-                            to="/nodes/$nodeId"
+                            to="/monitoring/nodes/$nodeId"
                             params={{ nodeId: node.id.toString() }}
                             className="block"
                         >
@@ -106,7 +106,7 @@ export const NodesMonitoringWidget = () => {
                 {/* View All Link */}
                 <div className="pt-2">
                     <Link
-                        to="/nodes"
+                        to="/monitoring/nodes"
                         className="text-sm text-primary hover:underline"
                     >
                         View all nodes →

@@ -72,7 +72,7 @@ export const NodeDetailMonitoring = () => {
             {/* Header */}
             <div className="flex justify-between items-center">
                 <div className="flex items-center gap-4">
-                    <Link to="/nodes">
+                    <Link to="/monitoring/nodes">
                         <Button variant="outline" size="sm">← Back</Button>
                     </Link>
                     <div>

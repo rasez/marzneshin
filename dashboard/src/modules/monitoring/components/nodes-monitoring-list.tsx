@@ -138,7 +138,7 @@ export const NodesMonitoringList = () => {
                 {filteredNodes?.map((node) => (
                     <Link
                         key={node.id}
-                        to="/nodes/$nodeId"
+                        to="/monitoring/nodes/$nodeId"
                         params={{ nodeId: node.id.toString() }}
                         className="block"
                     >
