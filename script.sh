@@ -137,6 +137,18 @@ install_marzneshin() {
     # Use compose file from repository instead of remote URL
     curl -sL "$FILES_URL_PREFIX/docker-compose-$database.yml" -o "$CONFIG_DIR/docker-compose.yml"
     colorized_echo green "File saved in $CONFIG_DIR/docker-compose.yml"
+
+    # Ensure Docker build context on the server points to this cloned repository,
+    # so that Docker can find Dockerfile.custom and the application source code.
+    # We assume the install script is run from the project root where Dockerfile.custom lives.
+    REPO_DIR="$(pwd)"
+    if [ -f "$REPO_DIR/Dockerfile.custom" ]; then
+        sed -i "s|context: .|context: $REPO_DIR|g" "$CONFIG_DIR/docker-compose.yml"
+        colorized_echo green "Updated Docker build context to $REPO_DIR in docker-compose.yml"
+    else
+        colorized_echo yellow "Warning: Dockerfile.custom not found in current directory ($REPO_DIR)."
+        colorized_echo yellow "The Docker build may fail if the build context does not contain Dockerfile.custom."
+    fi
 	if [ "$nightly" = true ]; then
 	    colorized_echo red "setting compose tag to nightly."
 	 	sed -ri "s/(dawsh\/marzneshin:)latest/\1nightly/g" $CONFIG_DIR/docker-compose.yml
