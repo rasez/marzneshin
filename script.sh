@@ -127,21 +127,21 @@ install_marzneshin_script() {
 install_marzneshin() {
     # Fetch releases
     FILES_URL_PREFIX="https://raw.githubusercontent.com/rasez/marzneshin/main"
-	COMPOSE_FILES_URL="https://raw.githubusercontent.com/rasez/marzneshin-deploy/master"
  	database=$1
   	nightly=$2
-  
+
     mkdir -p "$DATA_DIR"
     mkdir -p "$CONFIG_DIR"
 
     colorized_echo blue "Fetching compose file"
-    curl -sL "$COMPOSE_FILES_URL/docker-compose-$database.yml" -o "$CONFIG_DIR/docker-compose.yml"
+    # Use compose file from repository instead of remote URL
+    curl -sL "$FILES_URL_PREFIX/docker-compose-$database.yml" -o "$CONFIG_DIR/docker-compose.yml"
     colorized_echo green "File saved in $CONFIG_DIR/docker-compose.yml"
 	if [ "$nightly" = true ]; then
 	    colorized_echo red "setting compose tag to nightly."
 	 	sed -ri "s/(dawsh\/marzneshin:)latest/\1nightly/g" $CONFIG_DIR/docker-compose.yml
 	fi
- 
+
     colorized_echo blue "Fetching example .env file"
     curl -sL "$FILES_URL_PREFIX/.env.example" -o "$CONFIG_DIR/.env"
     colorized_echo green "File saved in $CONFIG_DIR/.env"
@@ -151,7 +151,7 @@ install_marzneshin() {
 
 install_marznode_xray_config() {
     mkdir -p "$NODE_DATA_DIR"
-    curl -sL "https://raw.githubusercontent.com/rasez/marznode/main/xray_config.json" -o "$NODE_DATA_DIR/xray_config.json"
+    curl -sL "https://raw.githubusercontent.com/rasez/marznode/master/xray_config.json" -o "$NODE_DATA_DIR/xray_config.json"
     colorized_echo green "Sample xray config downloaded for marznode"
 }
 
@@ -226,6 +226,11 @@ uninstall_marznode_data_files() {
 
 
 up_marzneshin() {
+    # Check if compose file uses build: instead of image:
+    if grep -q "build:" "$COMPOSE_FILE"; then
+        colorized_echo blue "Building marzneshin image (this may take a few minutes)..."
+        $COMPOSE -f $COMPOSE_FILE -p "$APP_NAME" build
+    fi
     $COMPOSE -f $COMPOSE_FILE -p "$APP_NAME" up -d --remove-orphans
 }
 

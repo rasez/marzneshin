@@ -5,10 +5,13 @@ services:
       dockerfile: Dockerfile.custom
     restart: always
     env_file: .env
+    environment:
+      SQLALCHEMY_DATABASE_URL: "mysql+pymysql://root:12341234@127.0.0.1/marzneshin"
     network_mode: host
     volumes:
       - /var/lib/marzneshin:/var/lib/marzneshin
-
+    depends_on:
+      - db
   marznode:
     image: dawsh/marznode:latest
     restart: always
@@ -23,3 +26,13 @@ services:
       SSL_CERT_FILE: "./server.cert"
     volumes:
       - /var/lib/marznode:/var/lib/marznode
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 12341234
+      MYSQL_DATABASE: marzneshin
+    ports:
+      - "127.0.0.1:3306:3306"
+    volumes:
+      - /var/lib/marzneshin/mysql:/var/lib/mysql
