@@ -40,8 +40,6 @@ import { Route as DashboardHostsHostIdDeleteRouteImport } from './routes/_dashbo
 import { Route as DashboardAdminsAdminIdEditRouteImport } from './routes/_dashboard/admins/$adminId/edit'
 import { Route as DashboardAdminsAdminIdDeleteRouteImport } from './routes/_dashboard/admins/$adminId/delete'
 
-const DashboardMonitoringLazyRouteImport = createFileRoute('/_dashboard/monitoring')()
-
 const DashboardIndexLazyRouteImport = createFileRoute('/_dashboard/')()
 const DashboardUsersLazyRouteImport = createFileRoute('/_dashboard/users')()
 const DashboardSettingsLazyRouteImport = createFileRoute(
@@ -51,6 +49,9 @@ const DashboardServicesLazyRouteImport = createFileRoute(
   '/_dashboard/services',
 )()
 const DashboardNodesLazyRouteImport = createFileRoute('/_dashboard/nodes')()
+const DashboardMonitoringLazyRouteImport = createFileRoute(
+  '/_dashboard/monitoring',
+)()
 const DashboardHostsLazyRouteImport = createFileRoute('/_dashboard/hosts')()
 const DashboardAdminsLazyRouteImport = createFileRoute('/_dashboard/admins')()
 
@@ -96,6 +97,13 @@ const DashboardNodesLazyRoute = DashboardNodesLazyRouteImport.update({
   getParentRoute: () => DashboardRoute,
 } as any).lazy(() =>
   import('./routes/_dashboard/nodes.lazy').then((d) => d.Route),
+)
+const DashboardMonitoringLazyRoute = DashboardMonitoringLazyRouteImport.update({
+  id: '/monitoring',
+  path: '/monitoring',
+  getParentRoute: () => DashboardRoute,
+} as any).lazy(() =>
+  import('./routes/_dashboard/monitoring.lazy').then((d) => d.Route),
 )
 const DashboardHostsLazyRoute = DashboardHostsLazyRouteImport.update({
   id: '/hosts',
@@ -264,6 +272,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof AuthLoginRoute
   '/admins': typeof DashboardAdminsLazyRouteWithChildren
   '/hosts': typeof DashboardHostsLazyRouteWithChildren
+  '/monitoring': typeof DashboardMonitoringLazyRoute
   '/nodes': typeof DashboardNodesLazyRouteWithChildren
   '/services': typeof DashboardServicesLazyRouteWithChildren
   '/settings': typeof DashboardSettingsLazyRoute
@@ -299,6 +308,7 @@ export interface FileRoutesByTo {
   '/login': typeof AuthLoginRoute
   '/admins': typeof DashboardAdminsLazyRouteWithChildren
   '/hosts': typeof DashboardHostsLazyRouteWithChildren
+  '/monitoring': typeof DashboardMonitoringLazyRoute
   '/nodes': typeof DashboardNodesLazyRouteWithChildren
   '/services': typeof DashboardServicesLazyRouteWithChildren
   '/settings': typeof DashboardSettingsLazyRoute
@@ -331,6 +341,7 @@ export interface FileRoutesById {
   '/_auth/login': typeof AuthLoginRoute
   '/_dashboard/admins': typeof DashboardAdminsLazyRouteWithChildren
   '/_dashboard/hosts': typeof DashboardHostsLazyRouteWithChildren
+  '/_dashboard/monitoring': typeof DashboardMonitoringLazyRoute
   '/_dashboard/nodes': typeof DashboardNodesLazyRouteWithChildren
   '/_dashboard/services': typeof DashboardServicesLazyRouteWithChildren
   '/_dashboard/settings': typeof DashboardSettingsLazyRoute
@@ -369,6 +380,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/admins'
     | '/hosts'
+    | '/monitoring'
     | '/nodes'
     | '/services'
     | '/settings'
@@ -404,6 +416,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/admins'
     | '/hosts'
+    | '/monitoring'
     | '/nodes'
     | '/services'
     | '/settings'
@@ -435,6 +448,7 @@ export interface FileRouteTypes {
     | '/_auth/login'
     | '/_dashboard/admins'
     | '/_dashboard/hosts'
+    | '/_dashboard/monitoring'
     | '/_dashboard/nodes'
     | '/_dashboard/services'
     | '/_dashboard/settings'
@@ -521,6 +535,13 @@ declare module '@tanstack/react-router' {
       path: '/nodes'
       fullPath: '/nodes'
       preLoaderRoute: typeof DashboardNodesLazyRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/_dashboard/monitoring': {
+      id: '/_dashboard/monitoring'
+      path: '/monitoring'
+      fullPath: '/monitoring'
+      preLoaderRoute: typeof DashboardMonitoringLazyRouteImport
       parentRoute: typeof DashboardRoute
     }
     '/_dashboard/hosts': {
@@ -884,31 +905,23 @@ const DashboardUsersLazyRouteWithChildren =
 interface DashboardRouteChildren {
   DashboardAdminsLazyRoute: typeof DashboardAdminsLazyRouteWithChildren
   DashboardHostsLazyRoute: typeof DashboardHostsLazyRouteWithChildren
+  DashboardMonitoringLazyRoute: typeof DashboardMonitoringLazyRoute
   DashboardNodesLazyRoute: typeof DashboardNodesLazyRouteWithChildren
   DashboardServicesLazyRoute: typeof DashboardServicesLazyRouteWithChildren
   DashboardSettingsLazyRoute: typeof DashboardSettingsLazyRoute
   DashboardUsersLazyRoute: typeof DashboardUsersLazyRouteWithChildren
   DashboardIndexLazyRoute: typeof DashboardIndexLazyRoute
-  DashboardMonitoringLazyRoute: typeof DashboardMonitoringLazyRoute
 }
-
-const DashboardMonitoringLazyRoute = DashboardMonitoringLazyRouteImport.update({
-  id: '/monitoring',
-  path: '/monitoring',
-  getParentRoute: () => DashboardRoute,
-} as any).lazy(() =>
-  import('./routes/_dashboard/monitoring.lazy').then((d) => d.Route),
-)
 
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardAdminsLazyRoute: DashboardAdminsLazyRouteWithChildren,
   DashboardHostsLazyRoute: DashboardHostsLazyRouteWithChildren,
+  DashboardMonitoringLazyRoute: DashboardMonitoringLazyRoute,
   DashboardNodesLazyRoute: DashboardNodesLazyRouteWithChildren,
   DashboardServicesLazyRoute: DashboardServicesLazyRouteWithChildren,
   DashboardSettingsLazyRoute: DashboardSettingsLazyRoute,
   DashboardUsersLazyRoute: DashboardUsersLazyRouteWithChildren,
   DashboardIndexLazyRoute: DashboardIndexLazyRoute,
-  DashboardMonitoringLazyRoute: DashboardMonitoringLazyRoute,
 }
 
 const DashboardRouteWithChildren = DashboardRoute._addFileChildren(

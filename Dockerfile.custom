@@ -16,6 +16,7 @@ COPY dashboard/tsconfig.node.json ./dashboard/
 COPY dashboard/vite.config.ts ./dashboard/
 COPY dashboard/tailwind.config.js ./dashboard/
 COPY dashboard/postcss.config.js ./dashboard/
+COPY dashboard/tsr.config.json ./dashboard/
 
 WORKDIR /app/dashboard
 
